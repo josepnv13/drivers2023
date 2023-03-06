@@ -18,7 +18,11 @@ class Carrera {
             coches.forEach(coche -> {
                 coche.acelerar(Coche.maxVelocidad /2-random.nextInt(Coche.maxVelocidad));
                 coche.mover();
-                System.out.println(" ".repeat(coche.distancia) +(coche.enBoxes > 0 ? "\033[34m" : "\033[32m") + coche.piloto + " ("+"velocidad: "+ coche.velocidad +" desgaste: "+ coche.desgaste +" material rueda:"+ coche.material2+")");
+                if (coche.enBoxes>=120){
+                    System.out.println("\033[31m ".repeat(coche.distancia)  + coche.piloto + " ("+"velocidad: "+ coche.velocidad +" desgaste: "+ coche.desgaste +" material rueda:"+ coche.material2+")");
+                }else {
+                    System.out.println(" ".repeat(coche.distancia) +(coche.enBoxes > 0 ? "\033[34m" : "\033[32m") + coche.piloto + " ("+"velocidad: "+ coche.velocidad +" desgaste: "+ coche.desgaste +" material rueda:"+ coche.material2+")");
+                }
 
             });
 
@@ -113,7 +117,7 @@ class Coche {
                 this.velocidad = 1;
             }
 
-            if (desgaste >= 150) {
+            if (desgaste >= 100) {
                 Random random = new Random();
                 int aleatorio = random.nextInt(4);
                 enBoxes = aleatorio + 3;
@@ -124,7 +128,7 @@ class Coche {
         }
     }
     public boolean tieneFalloDeMotor() {
-        return random.nextInt(10000) <200;
+        return random.nextInt(10000) <100;
     }
 
     void mover (){
@@ -138,9 +142,15 @@ class Coche {
         }
 
         if (tieneFalloDeMotor()){
-            enpausa=150;
-            this.velocidad=0;
+            enBoxes= 120;
+            this.velocidad = 0;
             desgaste=0;
+            for (int i = 0; i <200; i++) {
+
+
+                enBoxes++;
+
+            }
             System.out.println("\033[0m"+piloto+" tiene un fallo de motor y se detiene!");
         }
 
