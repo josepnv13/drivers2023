@@ -19,7 +19,7 @@ class Carrera {
                 coche.acelerar(Coche.maxVelocidad /2-random.nextInt(Coche.maxVelocidad));
                 coche.mover();
                 if (coche.enBoxes>=120){
-                    System.out.println("\033[31m ".repeat(coche.distancia)  + coche.piloto + " ("+"velocidad: "+ coche.velocidad +" desgaste: "+ coche.desgaste +" material rueda:"+ coche.material2+")");
+                    System.out.println("\033[31m ".repeat(coche.distancia)  + coche.piloto + " ("+"velocidad: "+ coche.velocidad +" desgaste: "+ coche.desgaste +" material rueda:"+ coche.material2+")"+"\033[0m");
                 }else {
                     System.out.println(" ".repeat(coche.distancia) +(coche.enBoxes > 0 ? "\033[34m" : "\033[32m") + coche.piloto + " ("+"velocidad: "+ coche.velocidad +" desgaste: "+ coche.desgaste +" material rueda:"+ coche.material2+")");
                 }
