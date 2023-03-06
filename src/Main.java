@@ -19,9 +19,13 @@ class Carrera {
                 coche.acelerar(Coche.maxVelocidad /2-random.nextInt(Coche.maxVelocidad));
                 coche.mover();
                 if (coche.enBoxes>=120){
-                    System.out.println("\033[31m ".repeat(coche.distancia)  + coche.piloto + " ("+"velocidad: "+ coche.velocidad +" desgaste: "+ coche.desgaste +" material rueda:"+ coche.material2+")");
-                }else {
-                    System.out.println(" ".repeat(coche.distancia) +(coche.enBoxes > 0 ? "\033[34m" : "\033[32m") + coche.piloto + " ("+"velocidad: "+ coche.velocidad +" desgaste: "+ coche.desgaste +" material rueda:"+ coche.material2+")");
+                    System.out.println("\033[31m ".repeat(coche.distancia)  + coche.piloto + " ("+"velocidad: "+ coche.velocidad +" desgaste: "+ coche.desgaste +" material rueda:"+")"+"\033[0m");
+
+                } else {
+                    System.out.print(" ".repeat(coche.distancia) +(coche.enBoxes > 0 ? "\033[34m" : "\033[32m") + coche.piloto + " ("+"velocidad: "+ coche.velocidad +" desgaste: "+ coche.desgaste +" material rueda: ");
+                    coche.materialRueda();
+                    System.out.print(" )");
+                    System.out.println( );
                 }
 
             });
@@ -72,28 +76,37 @@ class Coche {
     static int maxVelocidad;
     boolean tieneFalloDeMotor;
     int material2;
+    int[] fiabilidadMotor;
     Random random = new Random();
 
 
-    public Coche(String piloto) {
+    public Coche(String piloto, int[]fiabilidadMotor) {
+        this.fiabilidadMotor= fiabilidadMotor;
         this.piloto = piloto;
     }
 
 
-    void material (){
+    void materialRueda (){
         Random random = new Random();
-        int aleatorio2= random.nextInt(3);
-        material2 = aleatorio2 + 3;
-        if (material2==1){
-            System.out.println("material soft");
+        int aleatorio2= random.nextInt(4);
+        material2 = aleatorio2;
+        if (material2==1 ){
+            System.out.print("material soft");
+            desgaste += velocidad*3.5;
 
+
+        } else if (material2==0) {
+            System.out.print("material soft");
+            desgaste += velocidad*3.5;
 
         } else if (material2==2) {
-            System.out.println("material medium");
+            System.out.print("material medium");
+            desgaste += velocidad*2.5;
 
 
         }else if (material2==3){
-            System.out.println("material hard");
+            System.out.print("material hard");
+            desgaste += velocidad*1.5;
 
         }
 
@@ -128,13 +141,35 @@ class Coche {
         }
     }
     public boolean tieneFalloDeMotor() {
-        return random.nextInt(10000) <100;
+
+        for (int i = 0; i <21; i++) {
+
+            if(fiabilidadMotor==1){
+
+                return random.nextInt(1000000) <100;
+
+            } else if (fiabilidadMotor==2){
+
+                return random.nextInt(100000) <100;
+
+            } else if (fiabilidadMotor==3) {
+
+                return random.nextInt(10000) <100;
+
+            } else if (fiabilidadMotor==4) {
+
+                return random.nextInt(1000) <100;
+
+            }
+
+        }
+
+        return tieneFalloDeMotor;
     }
 
     void mover (){
         distancia += velocidad;
 
-        desgaste += velocidad*2;
 
         enBoxes--;
         if (enBoxes < 0) {
@@ -146,7 +181,6 @@ class Coche {
             this.velocidad = 0;
             desgaste=0;
             for (int i = 0; i <200; i++) {
-
 
                 enBoxes++;
 
@@ -165,6 +199,9 @@ class Coche {
 class ex7 {
     public static void main(String[] args) {
 
+        int[] fallos = new int[]{ 1 , 3 , 2 , 2 , 1 , 1 , 1, 1 ,2 ,4 ,3 ,2 ,4 , 3 ,1 , 1 , 1, 1, 1, 2 ,2
+        };
+
         String[] drivers = new String[]{
                 "Max Verstappen", "Logan Sargeant", "Lando Norris",
                 "Pierre Gasly", "Sergio Pérez", "Fernando Alonso",
@@ -175,7 +212,7 @@ class ex7 {
         };
         Carrera carrera = new Carrera(120);
         for(String driver: drivers){
-            carrera.inscribir(new Coche(driver));
+            carrera.inscribir(new Coche(driver,fallos));
         }
         carrera.iniciar();
     }
