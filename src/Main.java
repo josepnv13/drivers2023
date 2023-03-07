@@ -81,7 +81,7 @@ class Coche {
 
 
     public Coche(String piloto, int[]fiabilidadMotor) {
-        this.fiabilidadMotor= fiabilidadMotor;
+        this.fiabilidadMotor = fiabilidadMotor;
         this.piloto = piloto;
     }
 
@@ -141,27 +141,18 @@ class Coche {
         }
     }
     public boolean tieneFalloDeMotor() {
-
         for (int i = 0; i <21; i++) {
-
-            if(fiabilidadMotor==1){
-
+            Integer reability = fiabilidadMotor[i];
+            if( reability ==1){
                 return random.nextInt(1000000) <100;
-
-            } else if (fiabilidadMotor==2){
-
+            } else if (reability == 2){
                 return random.nextInt(100000) <100;
-
-            } else if (fiabilidadMotor==3) {
-
+            } else if (reability == 3) {
                 return random.nextInt(10000) <100;
 
-            } else if (fiabilidadMotor==4) {
-
+            } else if (reability == 4) {
                 return random.nextInt(1000) <100;
-
             }
-
         }
 
         return tieneFalloDeMotor;
@@ -199,8 +190,7 @@ class Coche {
 class ex7 {
     public static void main(String[] args) {
 
-        int[] fallos = new int[]{ 1 , 3 , 2 , 2 , 1 , 1 , 1, 1 ,2 ,4 ,3 ,2 ,4 , 3 ,1 , 1 , 1, 1, 1, 2 ,2
-        };
+        int[] fiabilidadMotor = new int[]{ 1 , 3 , 2 , 2 , 1 , 1 , 1, 1 ,2 ,4 ,3 ,2 ,4 , 3 ,1 , 1 , 1, 1, 1, 2 ,2};
 
         String[] drivers = new String[]{
                 "Max Verstappen", "Logan Sargeant", "Lando Norris",
@@ -212,7 +202,7 @@ class ex7 {
         };
         Carrera carrera = new Carrera(120);
         for(String driver: drivers){
-            carrera.inscribir(new Coche(driver,fallos));
+            carrera.inscribir(new Coche(driver,fiabilidadMotor));
         }
         carrera.iniciar();
     }
